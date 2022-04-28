@@ -69,6 +69,11 @@ function Board({ nrows = 4, ncols = 4, chanceLightStartsOn }) {
       let deepCopy = JSON.parse(JSON.stringify(oldBoard));
       // TODO: in the copy, flip this cell and the cells around it
       flipCell(y, x, deepCopy);
+      flipCell(y, x - 1, deepCopy);
+      flipCell(y, x + 1, deepCopy);
+      flipCell(y - 1, x, deepCopy);
+      flipCell(y + 1, x, deepCopy);
+
       // TODO: return the copy
       return deepCopy;
     });
