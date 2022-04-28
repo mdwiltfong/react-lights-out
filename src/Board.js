@@ -37,7 +37,7 @@ function Board({ nrows = 4, ncols = 4, chanceLightStartsOn }) {
     for (let x = 0; x < ncols; x++) {
       initialBoard[x] = [];
       for (let y = 0; y < nrows; y++) {
-        initialBoard[x][y] = Math.floor(Math.random() * 2);
+        initialBoard[x][y] = Boolean(Math.floor(Math.random() * 2));
       }
     }
 
@@ -46,7 +46,7 @@ function Board({ nrows = 4, ncols = 4, chanceLightStartsOn }) {
 
   function hasWon() {
     // TODO: check the board in state to determine whether the player has won.
-    if (board.every((cell) => cell === 1)) {
+    if (board.every((row) => row.every((cell) => cell === true))) {
       return true;
     } else {
       return false;
@@ -75,7 +75,28 @@ function Board({ nrows = 4, ncols = 4, chanceLightStartsOn }) {
   }
 
   // if the game is won, just show a winning msg & render nothing else
-  return hasWon() ? <h1>You Won!</h1> : createBoard();
+
+  if (hasWon() === true) {
+    return <h1>You have won! </h1>;
+  } else {
+    return (
+      <table>
+        <tbody>
+          {board.map((col, x) => (
+            <tr key={x}>
+              {col.map((row, y) => (
+                <Cell
+                  key={`${x}-${y}`}
+                  flipCellsAroundMe={() => flipCellsAround(`${x}-${y}`)}
+                  isLit={row}
+                />
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
   // TODO
 
   // make table board
